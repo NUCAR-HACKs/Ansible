@@ -1,0 +1,48 @@
+---
+# This playbook is based off of:
+# https://www.jeffgeerling.com/blog/simple-glusterfs-setup-ansible
+# copyright Tristan Sweeney 2017
+
+- hosts: gluster-servers
+  become: yes
+  become_method: sudo
+
+  vars_files:
+    - gluster-server-vars.yml
+
+  roles:
+    - geerlingguy.glusterfs
+
+  tasks:
+    - name: Ensure Gluster brick directories exist.
+      file: "path={{ item.brick_dir }} state=directory mode=0775"
+      with_items:
+        - gluster_volumes
+
+    - name: Ensure Gluster mount directories exist.
+     file: "path={{ item.mount_dir }} state=directory mode=0775"
+     with_items:
+       - gluster_volumes
+
+    - name: Configure Gluster volumes.
+      gluster_volume:
+        state: present
+        name: "{{ item.brick_name }}"
+        bricks: "{{ item.brick_dir }}"
+        replicas: {{ item.replicas }}
+        cluster: "{{ groups.gluster-servers | join(',') }}"
+        host: "{{ inventory_hostname }}"
+        force: yes
+      run_once: true # Runs the module gluster_volume only once, on one host
+      with_items:
+          - gluster_volumes
+
+    - name: Ensure Gluster volumes are mounted.
+      mount:
+        name: "{{ item.mount_dir }}"
+        src: "{{ inventory_hostname }}:/{{ item.brick_name }}"
+        fstype: glusterfs
+        opts: "defaults,_netdev"
+        state: mounted
+      with_items:
+          - gluster_volumes

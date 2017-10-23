@@ -1,0 +1,26 @@
+---
+- hosts: all
+  tasks:
+    - name: Add ROCm gpg key to aptitude.
+      apt_key:
+        url: http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key
+        state: present
+
+    - name: Add ROCm repository to aptitude.
+      apt_repository:
+          repo: deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main
+          state: present
+
+    - name: Update aptitude repository cache.
+      apt:
+          update_cache: yes
+
+    - name: Add ROCm packages to environment.
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - rocm
+        - rocm-opencl
+        - rocm-opencl-dev
+        - rocblas

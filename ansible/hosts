@@ -6,5 +6,10 @@ all:
             pantheon-1:
             pantheon-2:
             pantheon-3:
-        openldap_servers:
+        openldap-auth-servers:
             pantheon-0:
+        openldap-auth-clients:
+            pantheon-0:
+            pantheon-1:
+            pantheon-2:
+            pantheon-3:

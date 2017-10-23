@@ -1,10 +1,14 @@
 ---
+# This playbook is based off of:
+# https://github.com/bennojoy/openldap_server
+# https://github.com/net2grid/ansible-openldap_config
+# copyright Tristan Sweeney 2017
 - hosts: openldap_servers
   become: yes
   become_method: sudo
   roles:
   - role: bennojoy.openldap_server
-    openldap_server_domain_name: example.com
+    openldap_server_domain_name: pantheon.ece.neu.edu
     openldap_server_rootpw: zeus
     openldap_server_enable_ssl: false
 
@@ -15,9 +19,9 @@
       - People
       - Hosts
     openldap_create_users:
-      - name: cmccardwell
-        cn: Carter McCardwell
-        sn: McCardwell
+      - name: tsweeney
+        cn: Tristan Sweeney
+        sn: Sweeney
         password: nucar
-        email: cmccardwell
+        email: sweeney.tr@husky.neu.edu
         group_ou: ou=People

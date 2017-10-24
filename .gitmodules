@@ -1,0 +1,6 @@
+[submodule "ansible/roles/indigo_dc.slurm"]
+	path = ansible/roles/indigo_dc.slurm
+	url = https://github.com/indigo-dc/ansible-role-slurm.git
+[submodule "ansible/roles/grycap.ntp"]
+	path = ansible/roles/grycap.ntp
+	url = https://github.com/grycap/ansible-role-ntp.git

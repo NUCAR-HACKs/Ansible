@@ -1,0 +1,18 @@
+- hosts: slurm_server
+  become: yes
+  become_method: sudo
+  roles:
+  - role: 'indigo_dc.slurm'
+    slurm_type_of_node: 'front'
+    slurm_server_name: pantheon-0
+    slurm_server_ip: 10.0.0.1
+    slurm_wn_nodenames: [pantheon-0, pantheon-1, pantheon-2, pantheon-3]
+
+- hosts: slurm_worknodes
+  become: yes
+  become_method: sudo
+  roles:
+  - role: 'indigo_dc.slurm'
+    slurm_type_of_node: 'wn'
+    slurm_server_name: pantheon-0
+    slurm_server_ip: 10.0.0.1

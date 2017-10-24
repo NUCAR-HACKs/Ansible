@@ -8,3 +8,6 @@
 
   - name: "Setup OpenLDAP authentication Clients"
     include_playbook: setup-openLDAP-auth-clients.yml
+
+  - name: "Setup ROCm (Radeon Open Compute Environment)"
+    include_playbook: setup-rocm.yml

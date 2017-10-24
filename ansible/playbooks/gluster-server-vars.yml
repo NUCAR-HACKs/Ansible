@@ -1,12 +1,11 @@
 ---
 gluster_volumes:
-    - shared:
-        mount_dir: /shared
-        brick_dir: /gluster_hdd_internal_storage
-        brick_name: gluster_shared
-        replicas: 1
-    - home:
-        mount_dir: /home
-        brick_dir: /gluster_ssd_internal_storage
-        brick_name: gluster_home
-        replicas: 4
+    - mount_dir: /shared
+      brick_dir: /gluster_hdd_internal_storage
+      brick_name: gluster_shared
+      replicas: 1
+
+    - mount_dir: /home
+      brick_dir: /gluster_ssd_internal_storage
+      brick_name: gluster_home
+      replicas: 4

@@ -1,0 +1,68 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  vars_files:
+    - user-vars.yml
+  tasks:
+  # With mirrored home directories createhome: yes will fail and generate_sshkey will fail
+  - name: Create users.
+    user:
+      name: "{{ item.name }}"
+      comment: "{{ item.fullname }}"
+      createhome: no
+      groups: "{{ item.groups }}"
+      password: "{{ item.password }}"
+      uid: "{{ item.uid }}"
+    with_items:
+    - "{{ users }}"
+
+  - name: Create user home directories.
+    file:
+      name: "/home/{{ item.name }}"
+      state: directory
+      owner: "{{ item.name }}"
+      group: sudo
+      mode: 0755
+    run_once: yes
+    with_items:
+    - "{{ users }}"
+
+  - name: Create user SSH keys.
+    user:
+      name: "{{ item.name }}"
+      generate_ssh_key: yes
+    run_once: yes
+    with_items:
+    - "{{ users }}"
+  
+  - name: Modify SSH directory to allow temporary reading of key.
+    file:
+      name: "/home/{{ item.name }}/.ssh"
+      state: directory
+      owner: "{{ item.name }}"
+      group: sudo
+      mode: 0755
+    run_once: yes
+    with_items:
+    - "{{ users }}"
+
+  - name: Add user SSH keys to user authorized keys.
+    authorized_key:
+      user: "{{ item.name }}"
+      state: present
+      key:  "{{ lookup('file', '/home/{{ item.name }}/.ssh/id_rsa.pub') }}"
+    run_once: yes
+    with_items:
+    - "{{ users }}"
+  
+  - name: Reset SSH directory permissions.
+    file:
+      name: "/home/{{ item.name }}/.ssh"
+      state: directory
+      owner: "{{ item.name }}"
+      group: sudo
+      mode: 0700
+    run_once: yes
+    with_items:
+    - "{{ users }}"

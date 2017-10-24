@@ -1,0 +1,36 @@
+users:
+  - name: tsweeney
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Tristan Sweeney
+    groups: sudo
+    uid: 5001
+       
+  - name: shance
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Spencer Hance
+    groups: sudo
+    uid: 5002
+     
+  - name: cmccardwell
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Carter McCardwell
+    groups: sudo
+    uid: 5003
+       
+  - name: zmarcus
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Zachary Marcus
+    groups: sudo
+    uid: 5004
+       
+  - name: jbooth
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Jason Booth
+    groups: sudo
+    uid: 5005
+     
+  - name: mleger
+    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    fullname: Maddy Leger
+    groups: sudo
+    uid: 5006

@@ -3,11 +3,8 @@
   - name: "Setup GlusterFS home and shared directories"
     include_playbook: setup-glusterfs.yml
 
-  - name: "Setup OpenLDAP authentication Servers"
-    include_playbook: setup-openLDAP-auth-servers.yml
-
-  - name: "Setup OpenLDAP authentication Clients"
-    include_playbook: setup-openLDAP-auth-clients.yml
+  - name: "Setup User Accounts"
+    include_playbook: setup-users.yml
 
   - name: "Setup ROCm (Radeon Open Compute Environment)"
     include_playbook: setup-rocm.yml

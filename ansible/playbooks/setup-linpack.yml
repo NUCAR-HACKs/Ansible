@@ -9,3 +9,17 @@
         state: present
       with_items:
         - gfortran-5
+    - name: Check if rocBLAS is installed
+      command: dpkg-query -W rocblas-0.8.1.6-Linux
+      register: rocBLAS_check_deb
+      failed_when: rocBLAS_check_deb.rc > 1 # so that it doesn't fail if the package isn't found
+      changed_when: rocBLAS_check_deb.rc == 1
+    - name: Download rocBLAS dpkg package
+      get_url:
+        url="{{ https://github.com/ROCmSoftwarePlatform/rocBLAS/releases/download/v0.8.1.0/rocblas-0.8.1.6-Linux.deb }}"
+        dest="/home/{{ ansible_env.USER }}/Downloads/{{ rocBLAS }}.deb"
+      when: rocBLAS_check_deb.rc == 1
+    - name: Install rocBLAS dpkg package
+      apt: deb="/home/{{ ansible_env.USER }}/Downloads/{{ rocBLAS }}.deb"
+      sudo: true
+      when: rocBLAS_check_deb.rc == 1

@@ -4,3 +4,6 @@
 [submodule "ansible/roles/grycap.ntp"]
 	path = ansible/roles/grycap.ntp
 	url = https://github.com/grycap/ansible-role-ntp.git
+[submodule "ansible/roles/csc.cuda"]
+	path = ansible/roles/csc.cuda
+	url = https://github.com/CSCfi/ansible-role-cuda.git

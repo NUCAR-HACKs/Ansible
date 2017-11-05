@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: rocm_nodes
   become: yes
   become_method: sudo
   tasks:
@@ -26,3 +26,18 @@
         - rocm-opencl
         - rocm-opencl-dev
         - rocblas
+
+    - name: reboot nodes
+      shell: sleep 2 && shutdown -r now "Ansible reboot"
+      async: 1
+      poll: 0
+      ignore_errors: true
+
+    - name: wait for server to come back
+      local_action: wait_for
+      args:
+        host: "{{ inventory_hostname }}"
+        port: 22
+        state: started
+        delay: 30
+        timeout: 300

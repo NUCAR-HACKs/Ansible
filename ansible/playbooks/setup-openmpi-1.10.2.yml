@@ -1,16 +1,15 @@
+---
 # Based off of https://github.com/RDI2/ansible-role-openmpi
 
----
-# defaults for openmpi
 
-openmpi_version: 1.10.2
-openmpi_url: http://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-{{ openmpi_version }}.tar.bz2
-openmpi_prefix: /opt/openmpi/{{ openmpi_version }}
----
-
-- hosts: all
+- hosts: cuda_nodes
   become: yes
   become_method: sudo
+  vars:
+    # defaults for openmpi
+    openmpi_version: 1.10.2
+    openmpi_url: http://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-{{ openmpi_version }}.tar.bz2
+    openmpi_prefix: /opt/openmpi/{{ openmpi_version }}
   tasks:
     - name: download openmpi
       get_url: url={{ openmpi_url }} dest=/tmp/openmpi-{{ openmpi_version }}.tar.bz2
@@ -18,7 +17,7 @@ openmpi_prefix: /opt/openmpi/{{ openmpi_version }}
     - name: extract openmpi tarball
       unarchive: copy=no src=/tmp/openmpi-{{ openmpi_version }}.tar.bz2 dest=/tmp creates=/tmp/openmpi-{{ openmpi_version }}
 
-    - name: create openmpi dorectory
+    - name: create openmpi directory
       file: path=/opt/openmpi state=directory owner=root group=root mode=0755
 
     - name: configure openmpi source
@@ -27,8 +26,14 @@ openmpi_prefix: /opt/openmpi/{{ openmpi_version }}
         chdir: /tmp/openmpi-{{ openmpi_version }}
         creates: /tmp/openmpi-{{ openmpi_version }}/config.log
 
+    - name: make openmpi
+      shell: make -j 64
+      args:
+        chdir: /tmp/openmpi-{{ openmpi_version }}
+        creates: /tmp/openmpi/{{ openmpi_version }}/ompi
+
     - name: install openmpi
       shell: make install
       args:
         chdir: /tmp/openmpi-{{ openmpi_version }}
-        creates: /opt/openmpi/{{ openmpi_version }}/bin
+        creates: /opt/openmpi/{{ openmpi_version }}/bin/mpirun      

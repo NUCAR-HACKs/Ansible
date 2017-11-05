@@ -1,0 +1,84 @@
+---
+- hosts: work_nodes
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Update aptitude repository cache.
+      apt:
+          update_cache: yes
+
+    - name: Add dependencies to environment.
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - build-essential
+        - autoconf
+        - automake
+        - libtool
+        - subversion
+        - pkg-config
+        - default-jdk
+
+    - name: Get beagle library from git.
+      git:
+        repo: https://github.com/beagle-dev/beagle-lib.git
+        dest: /home/jbooth/beagle-lib
+        clone: yes
+
+    - name: Run autogen.sh
+      command: ./autogen.sh
+      args:
+        chdir: /home/jbooth/beagle-lib
+
+    # Needs to be shell for LDFLAG preloading
+    - name: run configure
+      shell: 'LDFLAGS="$LDFLAGS -L/opt/rocm/opencl/lib/x86_64" ./configure --with-opencl=/opt/rocm/opencl/'
+      args:
+        chdir: /home/jbooth/beagle-lib
+    
+    - name: run make
+      make:
+        chdir: /home/jbooth/beagle-lib 
+    
+    - name: run make install
+      make:
+        target: install
+        chdir: /home/jbooth/beagle-lib
+
+    - name: Create beagle.conf
+      shell: echo '/usr/local/lib' > /etc/ld.so.conf.d/beagle.conf
+
+    - name: reload ldconfig
+      command: ldconfig
+
+    - name: Get mrBayes
+      get_url:
+        url: http://mrbayes.sourceforge.net/download2.php?arch=src 
+        dest: /tmp/mrbayes.tar.gz
+
+    - name: Unpack mrBayes
+      unarchive:
+        remote_src: yes
+        src: /tmp/mrbayes.tar.gz
+        dest: /home/jbooth
+
+    - name: Move mrBayes repo
+      shell: mv $(ls | grep mrba) mrbayes
+      args:
+        chdir: /home/jbooth 
+
+    - name: autoconf mrBayes
+      command: autoconf
+      args:
+        chdir: /home/jbooth/mrbayes/src
+
+    - name: Configure mrBayes
+      command: ./configure
+      args:
+        chdir: /home/jbooth/mrbayes/src
+
+    - name: Make mrBayes
+      make:
+        chdir: /home/jbooth/mrbayes/src
+      

@@ -7,9 +7,11 @@ pantheon-1
 pantheon-2
 pantheon-3
 
-[opencl_nodes]
+[rocm_nodes]
 pantheon-0
 pantheon-1
+pantheon-2
+pantheon-3
 
 [cuda_nodes]
 pantheon-2

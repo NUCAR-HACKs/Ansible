@@ -1,0 +1,20 @@
+---
+- hosts: work_nodes
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Get HPCG
+      get_url:
+        url: ftp://pantheon-pi/hpcg/hpcg.tar.gz
+        dest: /tmp/hpcg.tar.gz
+
+    - name: Unpack HPCG
+      unarchive:
+        remote_src: yes
+        src: /tmp/hpcg.tar.gz
+        dest: /home/shance
+
+    - name: Move HPCG repo
+      shell: mv $(ls | grep hpcg) hpcg
+      args:
+        chdir: /home/shance

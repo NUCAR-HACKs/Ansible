@@ -1,0 +1,19 @@
+---
+- hosts: work_nodes
+  tasks:
+    - name: Clone repository
+      git:
+        repo: https://github.com/wesleykendall/mpitutorial
+        dest: /tmp/mpitutorial
+
+    - name: Copy hello world from repo
+      shell: mv /tmp/mpitutorial/tutorials/mpi-hello-world/code/* /home/tsweeney/mpi_hello_world
+
+    - name: Build hello world
+      make:
+        chdir: /home/tsweeney/mpi_hello_world
+    
+    - name: create hostfile
+      template:
+        src: ./mpi_hello_world_hostfile.j2
+        dest: /home/tsweeney/mpi_hello_world 

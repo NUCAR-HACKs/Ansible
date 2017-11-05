@@ -1,0 +1,5 @@
+#!/bin/bash
+# {{ ansible_managed }}
+export PATH={{ openmpi_bash_path }}:$PATH
+export LD_LIBRARY_PATH={{ openmpi_bash_ld_lib_path }}:$LD_LIBRARY_PATH
+export CPATH={{ openmpi_bash_cpath }}:$CPATH

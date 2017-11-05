@@ -2,7 +2,7 @@
 # Based off of https://github.com/RDI2/ansible-role-openmpi
 
 
-- hosts: cuda_nodes
+- hosts: work_nodes
   become: yes
   become_method: sudo
   vars:
@@ -10,6 +10,9 @@
     openmpi_version: 1.10.2
     openmpi_url: http://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-{{ openmpi_version }}.tar.bz2
     openmpi_prefix: /opt/openmpi/{{ openmpi_version }}
+    openmpi_bash_path: "{{ openmpi_prefix }}/bin"
+    openmpi_bash_ld_lib_path: "{{ openmpi_prefix }}/lib"
+    openmpi_bash_cpath: "{{ openmpi_prefix }}/include"
   tasks:
     - name: download openmpi
       get_url: url={{ openmpi_url }} dest=/tmp/openmpi-{{ openmpi_version }}.tar.bz2
@@ -36,4 +39,12 @@
       shell: make install
       args:
         chdir: /tmp/openmpi-{{ openmpi_version }}
-        creates: /opt/openmpi/{{ openmpi_version }}/bin/mpirun      
+        #creates: /opt/openmpi/{{ openmpi_version }}/bin/mpirun
+
+    - name: Add openmpi to /etc/profile.d
+      template:
+        src: ./openmpi-{{ openmpi_version }}.sh.j2
+        dest: /etc/profile.d/{{ openmpi_version }}.sh
+        owner: root
+        group: root
+        mode: 700

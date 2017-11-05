@@ -9,3 +9,9 @@
         state: present
       with_items:
         - gfortran-5
+    - name: Install numactl for Nvidia binary CPU pinning
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - numactl

@@ -1,6 +1,12 @@
 users:
+  - name: ansible
+    password: $6$WsusTubSBpeaqHjG$ByqCSJphEfLnRgEPv3lngIjh0dal.eeYxwfyrM7yxOpIAAvhwfCbYvjrYUBfKigvAnLm7XvDxg.liVxysRZr6/
+    fullname: Tristan Sweeney
+    groups: sudo
+    uid: 5000
+
   - name: tsweeney
-    password: $6$IFdO3fsGfT$PXq.vrxr2NxN4DfRF7SHu6AVhvFpVY8gAP/ckDMv3MpeLwUsyMjHOxPH5s.tJhrjGr5kHacKxlXrKWFnZznS5/ 
+    password: $6$zr5hxBza9F$ihBoWgeBYkX/S9gJyQpvReUnJiZiGULGZE.v7F5NTZNehT.gTpnXeKGb.IJbnWCCKjdaU4E/XX20sszjY8ku5. 
     fullname: Tristan Sweeney
     groups: sudo
     uid: 5001

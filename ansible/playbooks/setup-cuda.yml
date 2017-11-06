@@ -1,7 +1,0 @@
----
-- hosts: cuda_nodes
-  become: yes
-  become_method: sudo
-  roles:
-    - role: csc.cuda
-      gpu: yes

@@ -1,0 +1,37 @@
+- hosts: all
+  tasks:
+  - name: "Setup GlusterFS home and shared directories"
+    include_playbook: setup-glusterfs.yml
+
+  - name: "Setup User Accounts"
+    include_playbook: setup-users.yml
+
+  - name: "Setup ROCm (Radeon Open Compute Environment)"
+    include_playbook: setup-rocm.yml
+
+# Sets up cuda (restarts each node in cuda_nodes)
+- hosts: cuda_nodes
+  become: yes
+  become_method: sudo
+  roles:
+    - role: csc.cuda
+      gpu: yes
+
+# Sets up slurm server 
+- hosts: slurm_server
+  become: yes
+  become_method: sudo
+  roles:
+  - role: 'indigo_dc.slurm'
+    slurm_type_of_node: 'front'
+    slurm_server_name: pantheon-pi
+    slurm_wn_nodenames: [pantheon-0, pantheon-1, pantheon-2, pantheon-3]
+
+# Sets up slurm worknodes
+- hosts: slurm_worknodes
+  become: yes
+  become_method: sudo
+  roles:
+  - role: 'indigo_dc.slurm'
+    slurm_type_of_node: 'wn'
+    slurm_server_name: pantheon-pi

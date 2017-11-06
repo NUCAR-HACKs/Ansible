@@ -7,8 +7,8 @@
         dest: /tmp/mpitutorial
 
     - name: Copy hello world from repo
-      shell: mv /tmp/mpitutorial/tutorials/mpi-hello-world/code/* /home/tsweeney/mpi_hello_world
-
+      command: cp -r /tmp/mpitutorial/tutorials/mpi-hello-world/code /home/tsweeney/mpi_hello_world
+       
     - name: Build hello world
       make:
         chdir: /home/tsweeney/mpi_hello_world
